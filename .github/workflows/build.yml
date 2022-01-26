@@ -30,5 +30,7 @@ jobs:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: mold_bin
-        path: mold/mold
+        name: mold_complie_art
+        path: |
+          mold/mold
+          mold/mold-wrapper.so
