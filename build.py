@@ -7,11 +7,7 @@ class Builder(BuilderBase):
     version = "1.0.2"
 
     def prepare_distro(self):
-        self.run("""
-        DEBIAN_FRONTEND=noninteractive apt-get update && \
-        apt-get install -y build-essential git clang cmake && \
-        apt-get install -y libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
-        """)
+        pass
 
     def clean(self):
         self.run("rm -rf mold")
