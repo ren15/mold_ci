@@ -12,9 +12,19 @@ Artifacts is downloadable.
 
 ## Download the artifacts
 
-Check this link
+For more details, check this [link](https://nightly.link/ren15/mold_ci/workflows/build/main/mold_complie_art)
 
-https://nightly.link/ren15/mold_ci/workflows/build/main/mold_bin
+```bash
+wget -c https://nightly.link/ren15/mold_ci/workflows/build/main/mold_complie_art.zip 
+unzip mold_compile_art.zip
 
-``wget -c https://nightly.link/ren15/mold_ci/workflows/build/main/mold_bin.zip``
+chmod +x mold
+sudo mkdir -p /usr/local/lib/mold
+
+sudo mv mold /usr/local/bin
+sudo mv mold-wrapper.so /usr/local/lib/mold
+
+## in any project dir
+mold -run make
+```
 

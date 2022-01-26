@@ -2,15 +2,12 @@ name: ci
 
 on: push
 
-
-
 jobs:
 
   build:
     runs-on: ubuntu-20.04
     container:
       image: ubuntu:20.04
-
 
     defaults:
       run:
@@ -22,7 +19,6 @@ jobs:
       run: |
         export DEBIAN_FRONTEND=noninteractive
         apt update
-        apt install -y python3
         apt-get install -y build-essential git clang cmake
         apt-get install -y libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
         git clone https://github.com/rui314/mold.git
