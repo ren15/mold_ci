@@ -1,0 +1,20 @@
+name: ci
+
+on: push
+
+
+jobs:
+
+  build:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: build
+      run: |
+        python3 build.py
+        ls 
+        ls mold
