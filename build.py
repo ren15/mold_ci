@@ -5,7 +5,7 @@ class Builder(BuilderBase):
 
     def prepare_distro(self):
         self.run("apt-get update")
-        self.run("apt-get install -y build-essential git clang cmake libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config")
+        self.run("apt-get install -y python3 build-essential git clang cmake libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config")
 
     def clean(self):
         self.run("rm -rf mold")
