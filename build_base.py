@@ -8,8 +8,5 @@ class BuilderBase():
     def run(self, cmd):
         print(self.get_green("SHELL:")+" " + cmd)
         proc = subprocess.Popen(cmd, shell=True)
-        (out, err) = proc.communicate()
-        if out:
-            print("STDOUT: " + out.decode("utf-8"))
-        if err:
-            print("STDERR: " + err.decode("utf-8"))
+        ## for blocking
+        proc.communicate()
