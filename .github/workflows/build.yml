@@ -18,3 +18,8 @@ jobs:
         python3 build.py
         ls 
         ls mold
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: mold_bin
+        path: mold/mold
