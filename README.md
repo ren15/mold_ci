@@ -16,5 +16,5 @@ Check this link
 
 https://nightly.link/ren15/mold_ci/workflows/build/main/mold_bin
 
-``wget -c https://nightly.link/ren15/mold_ci/workflows/build/main/mold_bin.zip`
+``wget -c https://nightly.link/ren15/mold_ci/workflows/build/main/mold_bin.zip``
 
