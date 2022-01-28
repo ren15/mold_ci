@@ -5,9 +5,8 @@ Download and compile mold https://github.com/rui314/mold
 Build for linux x64
 
 ## Status
-Use github action to automate and host artifacts.
-Use python as the build scripting.
-Artifacts is downloadable.
+Use github action to automate building and host artifacts.
+Artifacts is downloadable via link.
 
 
 ## Download the artifacts
