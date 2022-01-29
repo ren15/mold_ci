@@ -14,16 +14,14 @@ Artifacts is downloadable via link.
 For more details, check this [link](https://nightly.link/ren15/mold_ci/workflows/build/main/mold_complie_art)
 
 ```bash
-wget -c https://nightly.link/ren15/mold_ci/workflows/build/main/mold_complie_art.zip 
-unzip mold_compile_art.zip
-
-chmod +x mold
-sudo mkdir -p /usr/local/lib/mold
-
-sudo mv mold /usr/local/bin
-sudo mv mold-wrapper.so /usr/local/lib/mold
+bash install.sh
 
 ## in any project dir
 mold -run make
 ```
 
+Or better:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
+```
