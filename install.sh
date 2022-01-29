@@ -1,4 +1,4 @@
-wget -c https://nightly.link/ren15/mold_ci/workflows/build/main/mold_complie_art.zip 
+wget -c https://nightly.link/ren15/mold_ci/workflows/build/main/mold_compile_art.zip
 unzip mold_compile_art.zip
 
 chmod +x mold
