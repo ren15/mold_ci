@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     container:
-      image: ubuntu:18.04
+      image: ubuntu:20.04
 
     defaults:
       run:
@@ -46,7 +46,7 @@ jobs:
         files: |
           mold.tar.gz
 
-  test_release:
+  test_release_deb:
     needs: [build]
     runs-on: ubuntu-20.04
     strategy:
@@ -71,6 +71,35 @@ jobs:
         export DEBIAN_FRONTEND=noninteractive
         apt-get update
         apt-get install -y wget tar
+        wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
+        tar xvf mold.tar.gz
+        chmod +x mold
+        mkdir -p /usr/local/lib/mold
+
+        mv mold /usr/local/bin
+        mv mold-wrapper.so /usr/local/lib/mold
+        mold --version
+
+  test_release_rpm:
+    needs: [build]
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        container_image:
+          [
+            "centos:7",
+          ]
+    container:
+      image: ${{ matrix.container_image }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - name: Download from github release
+      run: |
+        yum update -y
+        yum install -y tar wget
         wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
         tar xvf mold.tar.gz
         chmod +x mold
