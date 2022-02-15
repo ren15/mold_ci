@@ -84,3 +84,14 @@ jobs:
         yum install -y tar wget openssl-devel curl
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         mold --version
+  test_release_archlinux:
+    needs: [build]
+    runs-on: ubuntu-20.04
+    container:
+      image: archlinux:latest
+    steps:
+    - name: Download from github release
+      run: |
+        pacman -Sy && pacman -S --noconfirm tar wget openssl-devel curl
+        curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
+        mold --version
