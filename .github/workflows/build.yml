@@ -45,3 +45,28 @@ jobs:
         title: "Development Build"
         files: |
           mold.tar.gz
+
+  test_release:
+    needs: [build]
+    runs-on: ubuntu-20.04
+    container:
+      image: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - name: Download from github release
+      run: |
+        export DEBIAN_FRONTEND=noninteractive
+        apt-get update
+        apt-get install -y wget tar
+        wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
+        ls
+        tar xvf mold.tar.gz
+        ls
+        chmod +x mold
+        mkdir -p /usr/local/lib/mold
+
+        mv mold /usr/local/bin
+        mv mold-wrapper.so /usr/local/lib/mold
+        mold --version
