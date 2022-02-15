@@ -71,14 +71,7 @@ jobs:
         export DEBIAN_FRONTEND=noninteractive
         apt-get update
         apt-get install -y wget tar curl
-        # curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
-        wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
-        tar xvf mold.tar.gz
-        chmod +x mold
-        mkdir -p /usr/local/lib/mold
-
-        mv mold /usr/local/bin
-        mv mold-wrapper.so /usr/local/lib/mold
+        curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         mold --version
 
   test_release_rpm:
@@ -90,6 +83,7 @@ jobs:
         container_image:
           [
             "centos:7",
+            "fedora:35",
           ]
     container:
       image: ${{ matrix.container_image }}
@@ -99,12 +93,6 @@ jobs:
     steps:
     - name: Download from github release
       run: |
-        yum install -y tar wget
-        wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
-        tar xvf mold.tar.gz
-        chmod +x mold
-        mkdir -p /usr/local/lib/mold
-
-        mv mold /usr/local/bin
-        mv mold-wrapper.so /usr/local/lib/mold
+        yum install -y tar wget openssl-devel curl
+        curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         mold --version
