@@ -26,10 +26,18 @@ jobs:
         git checkout v1.0.3
         make -j$(nproc) CXX=clang++ CC=clang
 
+    - name: create_tar
+      run: |
+        cd mold
+        tar cvzf ../mold.tar.gz mold mold-wrapper.so
+        ls -lah *.tar.gz
 
-    - uses: actions/upload-artifact@v2
+    - uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        name: mold_compile_art
-        path: |
-          mold/mold
-          mold/mold-wrapper.so
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        title: "Development Build"
+        files: |
+          mold.tar.gz
+
+
