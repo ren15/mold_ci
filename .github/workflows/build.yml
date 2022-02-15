@@ -41,7 +41,7 @@ jobs:
         files: |
           mold.tar.gz
 
-  test_release_deb:
+  test_deb:
     needs: [build]
     runs-on: ubuntu-20.04
     strategy:
@@ -49,11 +49,11 @@ jobs:
       matrix:
         container_image:
           [
-            "ubuntu:18.04",
-            "debian:10",
             "ubuntu:20.04",
             "debian:11",
+            "debian:testing",
             "debian:sid",
+            "debian:experimental",
           ]
     container:
       image: ${{ matrix.container_image }}
@@ -65,7 +65,7 @@ jobs:
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         mold --version
 
-  test_release_rpm:
+  test_rpm:
     needs: [build]
     runs-on: ubuntu-20.04
     strategy:
@@ -73,7 +73,7 @@ jobs:
       matrix:
         container_image:
           [
-            "centos:7",
+            "fedora:34",
             "fedora:35",
           ]
     container:
@@ -84,7 +84,8 @@ jobs:
         yum install -y tar wget openssl-devel curl
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         mold --version
-  test_release_archlinux:
+
+  test_archlinux:
     needs: [build]
     runs-on: ubuntu-20.04
     container:
