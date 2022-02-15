@@ -3,23 +3,18 @@ name: ci
 on: push
 
 jobs:
-
   build:
     runs-on: ubuntu-20.04
     container:
       image: ubuntu:20.04
 
-    defaults:
-      run:
-        shell: bash
     steps:
     - uses: actions/checkout@v2
 
     - name: prepare system
       run: |
         export DEBIAN_FRONTEND=noninteractive
-        apt-get update
-        apt-get install -y \
+        apt-get update && apt-get install -y \
           build-essential git cmake \
           clang \
           libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
@@ -62,15 +57,11 @@ jobs:
           ]
     container:
       image: ${{ matrix.container_image }}
-    defaults:
-      run:
-        shell: bash
     steps:
     - name: Download from github release
       run: |
         export DEBIAN_FRONTEND=noninteractive
-        apt-get update
-        apt-get install -y wget tar curl
+        apt-get update && apt-get install -y wget tar curl
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         mold --version
 
@@ -87,9 +78,6 @@ jobs:
           ]
     container:
       image: ${{ matrix.container_image }}
-    defaults:
-      run:
-        shell: bash
     steps:
     - name: Download from github release
       run: |
