@@ -70,7 +70,8 @@ jobs:
       run: |
         export DEBIAN_FRONTEND=noninteractive
         apt-get update
-        apt-get install -y wget tar
+        apt-get install -y wget tar curl
+        # curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
         tar xvf mold.tar.gz
         chmod +x mold
@@ -98,7 +99,6 @@ jobs:
     steps:
     - name: Download from github release
       run: |
-        yum update -y
         yum install -y tar wget
         wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
         tar xvf mold.tar.gz
