@@ -92,6 +92,6 @@ jobs:
     steps:
     - name: Download from github release
       run: |
-        pacman -Sy && pacman -S --noconfirm tar wget openssl-devel curl
+        pacman -Sy && pacman -S --noconfirm tar wget openssl curl
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         mold --version
