@@ -15,21 +15,96 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: build
+    - name: prepare system
       run: |
         export DEBIAN_FRONTEND=noninteractive
-        apt update
-        apt-get install -y build-essential git clang cmake
-        apt-get install -y libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
+        apt-get update
+        apt-get install -y \
+          build-essential git cmake \
+          clang \
+          libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
+
+    - name: build mold
+      run: |
         git clone https://github.com/rui314/mold.git
         cd mold 
         git checkout v1.0.3
         make -j$(nproc) CXX=clang++ CC=clang
 
+    - name: create tar
+      run: |
+        cd mold
+        tar cvzf ../mold.tar.gz mold mold-wrapper.so
+        cd ..
+        ls -lah *.tar.gz
 
-    - uses: actions/upload-artifact@v2
+    - uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        name: mold_compile_art
-        path: |
-          mold/mold
-          mold/mold-wrapper.so
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        title: "Development Build"
+        files: |
+          mold.tar.gz
+
+  test_release_deb:
+    needs: [build]
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        container_image:
+          [
+            "ubuntu:18.04",
+            "debian:10",
+            "ubuntu:20.04",
+            "debian:11",
+            "debian:sid",
+          ]
+    container:
+      image: ${{ matrix.container_image }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - name: Download from github release
+      run: |
+        export DEBIAN_FRONTEND=noninteractive
+        apt-get update
+        apt-get install -y wget tar curl
+        # curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
+        wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
+        tar xvf mold.tar.gz
+        chmod +x mold
+        mkdir -p /usr/local/lib/mold
+
+        mv mold /usr/local/bin
+        mv mold-wrapper.so /usr/local/lib/mold
+        mold --version
+
+  test_release_rpm:
+    needs: [build]
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        container_image:
+          [
+            "centos:7",
+          ]
+    container:
+      image: ${{ matrix.container_image }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - name: Download from github release
+      run: |
+        yum install -y tar wget
+        wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
+        tar xvf mold.tar.gz
+        chmod +x mold
+        mkdir -p /usr/local/lib/mold
+
+        mv mold /usr/local/bin
+        mv mold-wrapper.so /usr/local/lib/mold
+        mold --version
