@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     container:
-      image: debian:bookworm
+      image: ubuntu:18.04
 
     defaults:
       run:
@@ -21,7 +21,7 @@ jobs:
         apt-get update
         apt-get install -y \
           build-essential git cmake \
-          clang-13 \
+          clang \
           libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
 
     - name: build mold
@@ -29,7 +29,7 @@ jobs:
         git clone https://github.com/rui314/mold.git
         cd mold 
         git checkout v1.0.3
-        make -j$(nproc) CXX=clang++-13 CC=clang-13
+        make -j$(nproc) CXX=clang++ CC=clang
 
     - name: create tar
       run: |
@@ -49,8 +49,19 @@ jobs:
   test_release:
     needs: [build]
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        container_image:
+          [
+            "ubuntu:18.04",
+            "debian:10",
+            "ubuntu:20.04",
+            "debian:11",
+            "debian:sid",
+          ]
     container:
-      image: ubuntu:20.04
+      image: ${{ matrix.container_image }}
     defaults:
       run:
         shell: bash
@@ -61,9 +72,7 @@ jobs:
         apt-get update
         apt-get install -y wget tar
         wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
-        ls
         tar xvf mold.tar.gz
-        ls
         chmod +x mold
         mkdir -p /usr/local/lib/mold
 
