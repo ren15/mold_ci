@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     container:
-      image: ubuntu:20.04
+      image: debian:bookworm
 
     defaults:
       run:
@@ -15,21 +15,27 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: build
+    - name: prepare system
       run: |
         export DEBIAN_FRONTEND=noninteractive
-        apt update
-        apt-get install -y build-essential git clang cmake
-        apt-get install -y libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
+        apt-get update
+        apt-get install -y \
+          build-essential git cmake \
+          clang-13 \
+          libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
+
+    - name: build mold
+      run: |
         git clone https://github.com/rui314/mold.git
         cd mold 
         git checkout v1.0.3
         make -j$(nproc) CXX=clang++ CC=clang
 
-    - name: create_tar
+    - name: create tar
       run: |
         cd mold
         tar cvzf ../mold.tar.gz mold mold-wrapper.so
+        cd ..
         ls -lah *.tar.gz
 
     - uses: "marvinpinto/action-automatic-releases@latest"
@@ -39,5 +45,3 @@ jobs:
         title: "Development Build"
         files: |
           mold.tar.gz
-
-
