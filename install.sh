@@ -1,4 +1,4 @@
-wget -c https://github.com/ren15/mold_ci/releases/download/1.1/mold.tar.gz
+wget -c https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
 tar xvf mold.tar.gz
 chmod +x mold
 mkdir -p /usr/local/lib/mold

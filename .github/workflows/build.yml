@@ -23,7 +23,7 @@ jobs:
       run: |
         git clone https://github.com/rui314/mold.git
         cd mold 
-        git checkout v1.1
+        git checkout v1.1.1
         make -j$(nproc) CXX=clang++ CC=clang
 
     - name: create tar
