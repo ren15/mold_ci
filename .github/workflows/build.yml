@@ -2,6 +2,9 @@ name: ci
 
 on: push
 
+env:
+  mold_version: "v1.2.0"
+
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -23,7 +26,7 @@ jobs:
       run: |
         git clone https://github.com/rui314/mold.git
         cd mold 
-        git checkout v1.1.1
+        git checkout ${mold_version}
         make -j$(nproc) CXX=clang++ CC=clang
 
     - name: create tar
