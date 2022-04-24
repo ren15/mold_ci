@@ -47,8 +47,8 @@ jobs:
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "${mold_version}"
-        title: "${mold_version} Build"
+        automatic_release_tag: "${{ env.mold_version }}"
+        title: "${{ env.mold_version }} Build"
         files: |
           mold.tar.gz
 
