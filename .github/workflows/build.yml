@@ -3,7 +3,7 @@ name: ci
 on: push
 
 env:
-  mold_version: "v1.2.0"
+  mold_version: "1.2.0"
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
       run: |
         git clone https://github.com/rui314/mold.git
         cd mold 
-        git checkout ${mold_version}
+        git checkout v${mold_version}
         make -j$(nproc) CXX=clang++ CC=clang
 
     - name: create tar
@@ -41,6 +41,14 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "latest"
         title: "Development Build"
+        files: |
+          mold.tar.gz
+
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "${mold_version}"
+        title: "${mold_version} Build"
         files: |
           mold.tar.gz
 
