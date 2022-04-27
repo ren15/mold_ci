@@ -1,3 +1,5 @@
+set -xe
+
 wget -c -q https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
 tar xvf mold.tar.gz
 chmod +x mold
