@@ -74,7 +74,7 @@ jobs:
     - name: Download from github release
       run: |
         export DEBIAN_FRONTEND=noninteractive
-        apt-get update && apt-get install -y wget tar curl
+        apt-get update && apt-get install -y wget tar curl libssl-dev
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         mold --version
 
