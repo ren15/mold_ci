@@ -7,7 +7,6 @@ Build for linux x64
 ## Status
 Use github action to automate building mold and generate release.
 
-Current version: v1.1
 
 ## Download from the release
 
