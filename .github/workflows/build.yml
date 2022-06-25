@@ -21,6 +21,7 @@ jobs:
           build-essential git cmake \
           clang \
           libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
+        ls
 
     - name: build mold
       run: |
