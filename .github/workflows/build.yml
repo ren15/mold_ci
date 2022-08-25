@@ -17,7 +17,11 @@ jobs:
     - name: prepare system
       run: |
         export DEBIAN_FRONTEND=noninteractive
-        curl https://raw.githubusercontent.com/rui314/mold/main/install-build-deps.sh | sudo bash
+        apt-get update && apt-get install -y \
+          build-essential git cmake \
+          clang \
+          libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
+        curl https://raw.githubusercontent.com/rui314/mold/main/install-build-deps.sh | bash
 
     - name: build mold
       run: |
