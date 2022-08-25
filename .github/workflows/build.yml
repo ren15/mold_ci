@@ -64,7 +64,7 @@ jobs:
         container_image:
           [
             "ubuntu:20.04",
-            "ubuntu:21.10",
+            "ubuntu:22.04",
             "debian:11",
             "debian:testing",
             "debian:unstable",
@@ -88,6 +88,7 @@ jobs:
         container_image:
           [
             "fedora:35",
+            "fedora:36",
           ]
     container:
       image: ${{ matrix.container_image }}
