@@ -17,11 +17,7 @@ jobs:
     - name: prepare system
       run: |
         export DEBIAN_FRONTEND=noninteractive
-        apt-get update && apt-get install -y \
-          build-essential git cmake \
-          clang \
-          libstdc++-10-dev libssl-dev libxxhash-dev zlib1g-dev pkg-config
-        ls
+        curl https://raw.githubusercontent.com/rui314/mold/main/install-build-deps.sh | sudo bash
 
     - name: build mold
       run: |
@@ -64,7 +60,6 @@ jobs:
         container_image:
           [
             "ubuntu:20.04",
-            "ubuntu:22.04",
             "debian:11",
             "debian:testing",
             "debian:unstable",
@@ -88,7 +83,6 @@ jobs:
         container_image:
           [
             "fedora:35",
-            "fedora:36",
           ]
     container:
       image: ${{ matrix.container_image }}
